@@ -35,6 +35,17 @@ def uniform_sampling(mesh, num_samples=16*16*6):
 
     points = np.concatenate(points, axis=0)
     normals = np.concatenate(normals, axis=0)
+    
+    # fig = plt.figure()
+    # ax = fig.add_subplot(projection='3d')
+    # visualize_points(points, ax)
+    # ax.view_init(elev=85, azim=90, roll=180)
+    # ax.set_xlim(-0.7, 0.7)
+    # ax.set_ylim(-0.7, 0.7)
+    # ax.set_zlim(-0.7, 0.7)
+    # ax.set_axis_off()
+    # plt.tight_layout()
+    # plt.show()
 
     return points, normals
 
@@ -183,14 +194,14 @@ def test_cone():
 def test_bunny():
     bunny = Mesh('meshes/bunny.obj')
 
-    # points, normals = uniform_sampling(bunny, 32*32*6)
-    # visualize_points(points)
-    # plt.show()
+    points, normals = uniform_sampling(bunny, 32*32*6)
+    visualize_points(points)
+    plt.show()
 
-    # mesh = reconstruct_mesh(points, normals)
-    # o3d.io.write_triangle_mesh('results/uniform_bunny.obj', mesh)
+    mesh = reconstruct_mesh(points, normals)
+    o3d.io.write_triangle_mesh('results/uniform_bunny.obj', mesh)
 
-    # print('uniform Chamfer distance:', bunny.compute_chamfer_distance('results/uniform_bunny.obj', 1 << 20))
+    print('uniform Chamfer distance:', bunny.compute_chamfer_distance('results/uniform_bunny.obj', 1 << 20))
 
     points, normals = adaptive_sampling(bunny, 32*32*6)
     visualize_points(points)
